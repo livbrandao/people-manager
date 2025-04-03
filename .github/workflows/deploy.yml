@@ -3,7 +3,7 @@ name: Deploy para GitHub Pages
 on:
   push:
     branches:
-      - main 
+      - main
 
 permissions:
   contents: write
@@ -27,9 +27,8 @@ jobs:
       - name: 🔨 Rodar o Build
         run: npm run build
 
-     - name: 🚀 Deploy para GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        branch: gh-pages
-        folder: build  
-
+      - name: 🚀 Deploy para GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: build
