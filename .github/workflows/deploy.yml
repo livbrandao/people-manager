@@ -1,0 +1,34 @@
+name: Deploy para GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Aciona o deploy quando houver push na branch main
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout do código
+        uses: actions/checkout@v4
+
+      - name: 🔧 Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 📦 Instalar dependências
+        run: npm install
+
+      - name: 🔨 Rodar o Build
+        run: npm run build
+
+      - name: 🚀 Deploy para GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # Branch onde o GitHub Pages buscará os arquivos
+          folder: dist # Pasta onde seu build é gerado (ajuste conforme necessário)
