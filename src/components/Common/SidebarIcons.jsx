@@ -5,7 +5,7 @@ const SidebarIcon = ({ icon, isSelected, badge }) => (
     <div
       className={`relative flex justify-center items-center p-2 rounded-md $
           text-blue-400 ${
-            isSelected ? "bg-white" : "bg-greyBlue bg-opacity-10 hover:bg-white"
+            isSelected ? "bg-white" : "bg-white bg-opacity-60 hover:bg-white"
           }`}
     >
       {icon}
