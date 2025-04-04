@@ -3,7 +3,7 @@ import SidebarNavigation from "./components/Common/SidebarNavigation.jsx";
 
 function App() {
   return (
-    <div className="flex h-screen bg-[#DBDBDB]">
+    <div className="flex h-screen ">
       <SidebarNavigation />
 
       <div className="flex-1 ">{/* Conteúdo da página */}</div>
