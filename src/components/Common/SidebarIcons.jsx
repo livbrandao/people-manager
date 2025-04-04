@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const SidebarIcon = ({ icon, isSelected, badge }) => (
   <div className="flex gap-4 my-3 mx-3.5 ">
@@ -30,12 +31,25 @@ const SidebarIcon = ({ icon, isSelected, badge }) => (
 );
 
 const SidebarIcons = () => {
-  const [selectedIcon, setSelectedIcon] = useState(3);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const routeToIconMap = {
+    "/": 0,
+    "/coming-soon": 1,
+  };
+
+  const getCurrentSelectedIcon = () => {
+    return routeToIconMap[location.pathname] ?? 0;
+  };
+
+  const [selectedIcon, setSelectedIcon] = useState(getCurrentSelectedIcon());
 
   const icons = [
     {
       id: 0,
       name: "Prédio",
+      route: "/",
       icon: (
         <svg
           width="19"
@@ -54,6 +68,7 @@ const SidebarIcons = () => {
     {
       id: 1,
       name: "Editar",
+      route: "/coming-soon",
       icon: (
         <svg
           width="21"
@@ -72,6 +87,7 @@ const SidebarIcons = () => {
     {
       id: 2,
       name: "Organograma",
+      route: "/coming-soon",
       icon: (
         <svg
           width="22"
@@ -90,6 +106,7 @@ const SidebarIcons = () => {
     {
       id: 3,
       name: "Notificação",
+      route: "/coming-soon",
       icon: (
         <svg
           width="19"
@@ -109,6 +126,7 @@ const SidebarIcons = () => {
     {
       id: 4,
       name: "Histórico",
+      route: "/coming-soon",
       icon: (
         <svg
           width="17"
@@ -127,6 +145,7 @@ const SidebarIcons = () => {
     {
       id: 5,
       name: "Perfil",
+      route: "/coming-soon",
       icon: (
         <svg
           width="17"
@@ -144,6 +163,11 @@ const SidebarIcons = () => {
     },
   ];
 
+  const handleIconClick = (id, route) => {
+    setSelectedIcon(id);
+    navigate(route);
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex flex-col">
@@ -151,7 +175,7 @@ const SidebarIcons = () => {
           <div
             key={icon.id}
             className="relative cursor-pointer"
-            onClick={() => setSelectedIcon(icon.id)}
+            onClick={() => handleIconClick(icon.id, icon.route)}
           >
             {/* Barra lateral indicadora quando selecionado */}
             {selectedIcon === icon.id && (

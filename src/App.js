@@ -1,13 +1,17 @@
 import "./App.css";
-import SidebarNavigation from "./components/Common/SidebarNavigation.jsx";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import ComingSoonPage from "./pages/ComingSoonPage";
 
 function App() {
   return (
-    <div className="flex h-screen ">
-      <SidebarNavigation />
-
-      <div className="flex-1 ">{/* Conteúdo da página */}</div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/coming-soon" element={<ComingSoonPage />} />
+      </Routes>
+    </Router>
   );
 }
 
