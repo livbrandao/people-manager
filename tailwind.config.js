@@ -4,13 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        sea: {
-          greyishBlue: "#578597",
-          darkGreyishBlue: "#51656D",
-          skyBlue: "#4FA1C2",
-          darkGray: "#3B4042",
-          charcoal: "#252F33",
-        },
+        greyishBlue: "#578597",
+        darkGreyishBlue: "#51656D",
+        skyBlue: "#4FA1C2",
+        greyBlue: "#649FBF",
+        darkGray: "#3B4042",
+        charcoal: "#252F33",
+        dark: "#272F33",
       },
     },
   },
