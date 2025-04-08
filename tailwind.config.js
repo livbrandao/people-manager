@@ -6,6 +6,7 @@ export default {
       colors: {
         greyishBlue: "#578597",
         darkGreyishBlue: "#51656D",
+        mediumLightGray: "#DBDBDB",
         skyBlue: "#4FA1C2",
         greyBlue: "#649FBF",
         darkGray: "#3B4042",

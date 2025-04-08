@@ -8,6 +8,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  text-color: #272f33;
+
   @apply bg-[#DBDBDB];
   background-image: url("assets/elemento-de-fundo.png");
   background-position: bottom right;

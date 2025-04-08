@@ -1,23 +1,19 @@
 import React, { useState } from "react";
 
-const EPIForm = () => {
-  const [equipamentos, setEquipamentos] = useState([
-    { tipo: "Calçado de segurança", ca: "9356" },
-    { tipo: "Calçado de segurança", ca: "9356" },
-    { tipo: "Capacete", ca: "9357" },
-  ]);
-
+const EPIForm = ({ equipamentos = [], setEquipamentos }) => {
   const [novoTipo, setNovoTipo] = useState("");
   const [novoCA, setNovoCA] = useState("");
 
   const adicionarEquipamento = (index) => {
     if (index === undefined) {
       // Adicionar novo item
-      const novosEquipamentos = [
-        ...equipamentos,
-        { tipo: novoTipo, ca: novoCA },
-      ];
-      setEquipamentos(novosEquipamentos);
+      if (novoTipo) {
+        const novosEquipamentos = [
+          ...equipamentos,
+          { tipo: novoTipo, ca: novoCA },
+        ];
+        setEquipamentos(novosEquipamentos);
+      }
     } else {
       // Atualizar item existente
       const novosEquipamentos = [...equipamentos];
@@ -37,6 +33,15 @@ const EPIForm = () => {
     setEquipamentos(novosEquipamentos);
   };
 
+  const handleEPIChange = (index, field, value) => {
+    const novosEquipamentos = [...equipamentos];
+    novosEquipamentos[index] = {
+      ...novosEquipamentos[index],
+      [field]: value,
+    };
+    setEquipamentos(novosEquipamentos);
+  };
+
   return (
     <div>
       <div className="grid grid-cols-1 gap-4">
@@ -46,17 +51,13 @@ const EPIForm = () => {
             className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4"
           >
             <div>
-              <label className="block text-base font-medium text-dark mb-1">
+              <label className="block text-base font-medium mb-1">
                 Selecione o EPI:
               </label>
               <select
-                className="w-full border border-greyBlue rounded-lg px-2 py-1.5  focus:border-sea-greyBlue text-dark font-normal"
+                className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-base"
                 value={equipamento.tipo}
-                onChange={(e) => {
-                  const novosEquipamentos = [...equipamentos];
-                  novosEquipamentos[index].tipo = e.target.value;
-                  setEquipamentos(novosEquipamentos);
-                }}
+                onChange={(e) => handleEPIChange(index, "tipo", e.target.value)}
               >
                 <option value="Calçado de segurança">
                   Calçado de segurança
@@ -68,24 +69,21 @@ const EPIForm = () => {
             </div>
 
             <div>
-              <label className="block text-base font-medium text-dark mb-1">
+              <label className="block text-base font-medium mb-1">
                 Informe o número do CA:
               </label>
               <input
                 type="text"
-                className="w-full border border-greyBlue rounded-lg px-2 py-1.5  focus:border-sea-greyBlue text-dark font-normal"
+                className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-sm"
                 value={equipamento.ca}
-                onChange={(e) => {
-                  const novosEquipamentos = [...equipamentos];
-                  novosEquipamentos[index].ca = e.target.value;
-                  setEquipamentos(novosEquipamentos);
-                }}
+                onChange={(e) => handleEPIChange(index, "ca", e.target.value)}
+                placeholder="9356"
               />
             </div>
 
             <div className="flex items-end">
               <button
-                className="w-full border border-greyBlue rounded-lg px-2 py-1.5  focus:border-sea-greyBlue text-greyBlue"
+                className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-blue-500 text-base"
                 onClick={() => excluirEquipamento(index)}
               >
                 Excluir EPI
@@ -97,11 +95,11 @@ const EPIForm = () => {
         {/* Linha para adicionar novo EPI */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
-            <label className="block text-base font-medium text-dark mb-1">
+            <label className="block text-base font-medium mb-1">
               Selecione o EPI:
             </label>
             <select
-              className="w-full border border-greyBlue rounded-lg px-2 py-1.5  focus:border-sea-greyBlue text-dark font-normal"
+              className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-base"
               value={novoTipo}
               onChange={(e) => setNovoTipo(e.target.value)}
             >
@@ -114,20 +112,21 @@ const EPIForm = () => {
           </div>
 
           <div>
-            <label className="block text-base font-medium text-dark mb-1">
+            <label className="block text-sm font-medium mb-1">
               Informe o número do CA:
             </label>
             <input
               type="text"
-              className="w-full border border-greyBlue rounded-lg px-2 py-1.5  focus:border-sea-greyBlue text-dark font-normal"
+              className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-base"
               value={novoCA}
               onChange={(e) => setNovoCA(e.target.value)}
+              placeholder="9356"
             />
           </div>
 
           <div className="flex items-end">
             <button
-              className="w-full border border-greyBlue rounded-lg px-2 py-1.5  focus:border-sea-greyBlue text-greyBlue"
+              className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-greyBlue text-sm"
               onClick={() => adicionarEquipamento()}
             >
               Adicionar EPI
