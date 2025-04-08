@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import FuncionarioCard from "./Home/FuncionarioCard";
 import ProgressSteps from "./Home/ProgressSteps";
+import EmployeeForm from "./Forms/EmployeeForm";
 
 export default function EmployeeListScreen() {
   const navigate = useNavigate();
@@ -41,12 +42,14 @@ export default function EmployeeListScreen() {
   const [hasAddedEmployee, setHasAddedEmployee] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showMainContent, setShowMainContent] = useState(true);
+  const [isAddingEmployee, setIsAddingEmployee] = useState(false);
 
   // Ativa o botão se uma das etapas estiver concluída ou se um novo funcionário tiver sido adicionado
   const isNextStepEnabled = isStepCompleted || hasAddedEmployee;
 
   const handleAddEmployee = () => {
-    // abrir aqui o formulário para adicionar um funcionário
+    // abre o formulário e setta true no progresso
+    setIsAddingEmployee(true);
     setHasAddedEmployee(true);
   };
 
@@ -75,6 +78,10 @@ export default function EmployeeListScreen() {
     setIsStepCompleted(!isStepCompleted);
   };
 
+  const handleBack = () => {
+    setIsAddingEmployee(false);
+  };
+
   return (
     <div className="min-h-screen p-4">
       {/* Process Steps */}
@@ -89,9 +96,9 @@ export default function EmployeeListScreen() {
 
       {showMainContent ? (
         <div className="flex flex-col items-end">
-          <div className="flex gap-4">
+          <div className="flex justify-between gap-4">
             {/* Card de informações */}
-            <div className="w-1/3 h-full bg-white p-8 rounded-xl shadow">
+            <div className="w-2/4 h-full bg-white p-8 rounded-xl shadow">
               <p className="text-base text-mediumLightGray mb-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
                 viverra lectus non porttitor. Suspendisse at lacinia mauris nec
@@ -109,55 +116,81 @@ export default function EmployeeListScreen() {
             </div>
 
             {/* Card da Lísta de Funcionários */}
-            <div className="w-2/3">
+            <div className="w-3/4">
               <div className="bg-white rounded-xl shadow">
                 {/* Header */}
                 <div className="bg-greyBlue text-white p-4 rounded-t-xl flex justify-between items-center">
-                  <h2 className="text-2xl font-medium pl-1">Funcionário(s)</h2>
+                  <h2 className="text-2xl font-medium pl-1 flex items-center gap-2">
+                    {isAddingEmployee ? (
+                      <>
+                        <ArrowLeft
+                          className="h-6 w-6 cursor-pointer"
+                          onClick={handleBack}
+                        />
+                        Adicionar Funcionário
+                      </>
+                    ) : (
+                      "Funcionário(s)"
+                    )}
+                  </h2>
                 </div>
 
-                <div className="p-4 flex flex-col justify-between gap-4">
-                  <button
-                    onClick={handleAddEmployee}
-                    className="hover:bg-mediumLightGray py-6 text-base flex items-center w-full text-greyBlue border border-greyBlue rounded-xl justify-center focus:border-2 focus:border-greyBlue focus:outline-none"
-                  >
-                    <Plus className="h-5 w-5 mr-2" />
-                    Adicionar Funcionário
-                  </button>
-                  <div className="flex gap-2 items-center justify-between">
-                    <div className="flex gap-2">
-                      <button className="text-greyBlue hover:bg-mediumLightGray px-8 py-1 text-base flex items-center border border-greyBlue rounded-xl justify-center focus:border-2 focus:border-greyBlue focus:outline-none focus:bg-skyBlue focus:text-white">
-                        Ver apenas ativos
+                {/* div principal */}
+                {isAddingEmployee ? (
+                  <EmployeeForm onBack={handleBack} />
+                ) : (
+                  <div>
+                    <div className="p-4 flex flex-col justify-between gap-4">
+                      <button
+                        onClick={handleAddEmployee}
+                        className="hover:bg-mediumLightGray py-6 text-base flex items-center w-full text-greyBlue border border-greyBlue rounded-xl justify-center focus:border-2 focus:border-greyBlue focus:outline-none"
+                      >
+                        <Plus className="h-5 w-5 mr-2" />
+                        Adicionar Funcionário
                       </button>
-                      <button className="text-mediumLightGray hover:bg-darkGreyishBlue px-8 py-1 text-base flex items-center border border-mediumLightGray rounded-xl justify-center">
-                        Limpar filtros
-                      </button>
+                      <div className="flex gap-2 items-center justify-between">
+                        <div className="flex gap-2">
+                          <button className="text-greyBlue hover:bg-mediumLightGray px-8 py-1 text-base flex items-center border border-greyBlue rounded-xl justify-center focus:border-2 focus:border-greyBlue focus:outline-none focus:bg-skyBlue focus:text-white">
+                            Ver apenas ativos
+                          </button>
+                          <button className="text-mediumLightGray hover:bg-darkGreyishBlue px-8 py-1 text-base flex items-center border border-mediumLightGray rounded-xl justify-center">
+                            Limpar filtros
+                          </button>
+                        </div>
+
+                        <span className="text-sm">
+                          Ativos:{" "}
+                          {
+                            employees.filter((emp) => emp.status === "Ativo")
+                              .length
+                          }
+                          /{employees.length}
+                        </span>
+                      </div>
                     </div>
 
-                    <span className="text-sm">
-                      Ativos:{" "}
-                      {employees.filter((emp) => emp.status === "Ativo").length}
-                      /{employees.length}
-                    </span>
+                    {/* Lista de funcionarios */}
+                    <div className="p-4 max-h-[220px] overflow-y-auto">
+                      {employees.map((employee) => (
+                        <FuncionarioCard
+                          key={employee.id}
+                          index={employee.id}
+                          nome={employee.name}
+                          cpf={employee.cpf}
+                          status={employee.status}
+                          cargo={employee.role}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
-
-                {/* Lista de funcionarios */}
-                <div className="p-4 max-h-[220px] overflow-y-auto">
-                  {employees.map((employee) => (
-                    <FuncionarioCard
-                      key={employee.id}
-                      index={employee.id}
-                      nome={employee.name}
-                      cpf={employee.cpf}
-                      status={employee.status}
-                      cargo={employee.role}
-                    />
-                  ))}
-                </div>
+                )}
 
                 {/* Footer */}
-                <div className="p-4 flex justify-end items-center">
+                <div
+                  className={`p-4 flex justify-end items-center ${
+                    isAddingEmployee ? "hidden" : "block"
+                  }`}
+                >
                   <div className="flex items-center gap-2">
                     <span className="text-sm">A etapa está concluída?</span>
 

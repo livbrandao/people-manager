@@ -62,7 +62,7 @@ export default function EmployeeForm() {
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white rounded-xl shadow p-4">
+    <div className="px-6 py-8">
       {/* Status */}
       <div className="mb-4 p-2 border border-greyBlue rounded-xl flex justify-between items-center shadow">
         <label className="text-base text-dark font-medium">
