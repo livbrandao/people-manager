@@ -4,28 +4,19 @@ const EPIForm = ({ equipamentos = [], setEquipamentos }) => {
   const [novoTipo, setNovoTipo] = useState("");
   const [novoCA, setNovoCA] = useState("");
 
-  const adicionarEquipamento = (index) => {
-    if (index === undefined) {
-      // Adicionar novo item
-      if (novoTipo) {
-        const novosEquipamentos = [
-          ...equipamentos,
-          { tipo: novoTipo, ca: novoCA },
-        ];
-        setEquipamentos(novosEquipamentos);
-      }
-    } else {
-      // Atualizar item existente
-      const novosEquipamentos = [...equipamentos];
-      novosEquipamentos[index] = {
-        ...novosEquipamentos[index],
-        tipo: novoTipo,
-        ca: novoCA,
-      };
+  const adicionarEquipamento = () => {
+    // Verifica se os campos não estão vazios antes de adicionar
+    if (novoTipo) {
+      const novosEquipamentos = [
+        ...equipamentos,
+        { tipo: novoTipo, ca: novoCA },
+      ];
       setEquipamentos(novosEquipamentos);
+
+      // Limpa os campos após adicionar
+      setNovoTipo("");
+      setNovoCA("");
     }
-    setNovoTipo("");
-    setNovoCA("");
   };
 
   const excluirEquipamento = (index) => {
@@ -83,6 +74,7 @@ const EPIForm = ({ equipamentos = [], setEquipamentos }) => {
 
             <div className="flex items-end">
               <button
+                type="button"
                 className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-blue-500 text-base hover:bg-skyBlue hover:text-white transition"
                 onClick={() => excluirEquipamento(index)}
               >
@@ -126,8 +118,9 @@ const EPIForm = ({ equipamentos = [], setEquipamentos }) => {
 
           <div className="flex items-end">
             <button
+              type="button"
               className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-greyBlue text-sm hover:bg-skyBlue hover:text-white transition"
-              onClick={() => adicionarEquipamento()}
+              onClick={adicionarEquipamento}
             >
               Adicionar EPI
             </button>
