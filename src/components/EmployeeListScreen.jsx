@@ -143,7 +143,7 @@ export default function EmployeeListScreen() {
                 </div>
 
                 {/* Lista de funcionarios */}
-                <div className="p-4">
+                <div className="p-4 max-h-[220px] overflow-y-auto">
                   {employees.map((employee) => (
                     <FuncionarioCard
                       key={employee.id}
@@ -191,7 +191,7 @@ export default function EmployeeListScreen() {
             type="button"
             disabled={!isNextStepEnabled}
             onClick={handleNextStep}
-            className={`px-12 py-2 text-white rounded-xl text-sm mt-8 ${
+            className={`px-12 py-2 text-white rounded-xl text-sm mt-2 ${
               isNextStepEnabled
                 ? "bg-greyBlue hover:bg-blue-700 cursor-pointer"
                 : "bg-darkGreyishBlue opacity-50 cursor-not-allowed"
