@@ -1,0 +1,22 @@
+{
+  "employees": [
+    {
+      "id": "2b79",
+      "isActive": true,
+      "name": "Lívia Toledo Brandão",
+      "gender": "feminino",
+      "cpf": "054.136.401-45",
+      "birthDate": "14/06/2000",
+      "rg": "3259755",
+      "role": "gerente",
+      "doesNotUseEPI": true,
+      "activities": [
+        {
+          "activity": "",
+          "epis": []
+        }
+      ],
+      "healthCertificate": ""
+    }
+  ]
+}

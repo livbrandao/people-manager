@@ -1,48 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import FuncionarioCard from "./Home/FuncionarioCard";
 import ProgressSteps from "./Home/ProgressSteps";
 import EmployeeForm from "./Forms/EmployeeForm";
+import axios from "axios";
 
 export default function EmployeeListScreen() {
   const navigate = useNavigate();
-  const [employees, setEmployees] = useState([
-    {
-      id: 1,
-      name: "Daniel Alves da Silva",
-      cpf: "123.456.789-00",
-      role: "Gerente",
-      status: "Ativo",
-    },
-    {
-      id: 2,
-      name: "Giselle Torres Lopes",
-      cpf: "987.654.321-00",
-      role: "Operador",
-      status: "Inativo",
-    },
-    {
-      id: 3,
-      name: "Ana Bispo dos Santos",
-      cpf: "456.789.123-00",
-      role: "Operador",
-      status: "Ativo",
-    },
-    {
-      id: 4,
-      name: "Regina Elisa Souza",
-      cpf: "321.654.987-00",
-      role: "Analista",
-      status: "Ativo",
-    },
-  ]);
-
+  const [employees, setEmployees] = useState([]);
   const [isStepCompleted, setIsStepCompleted] = useState(false);
   const [hasAddedEmployee, setHasAddedEmployee] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [showMainContent, setShowMainContent] = useState(true);
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/employees")
+      .then((response) => {
+        setEmployees(response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar funcionários:", error);
+      });
+  }, []);
 
   // Ativa o botão se uma das etapas estiver concluída ou se um novo funcionário tiver sido adicionado
   const isNextStepEnabled = isStepCompleted || hasAddedEmployee;
@@ -161,7 +143,7 @@ export default function EmployeeListScreen() {
                         <span className="text-sm">
                           Ativos:{" "}
                           {
-                            employees.filter((emp) => emp.status === "Ativo")
+                            employees.filter((emp) => emp.isActive === true)
                               .length
                           }
                           /{employees.length}
@@ -177,7 +159,7 @@ export default function EmployeeListScreen() {
                           index={employee.id}
                           nome={employee.name}
                           cpf={employee.cpf}
-                          status={employee.status}
+                          status={employee.isActive ? "Ativo" : "Inativo"}
                           cargo={employee.role}
                         />
                       ))}
