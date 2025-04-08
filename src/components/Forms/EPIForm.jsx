@@ -83,7 +83,7 @@ const EPIForm = ({ equipamentos = [], setEquipamentos }) => {
 
             <div className="flex items-end">
               <button
-                className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-blue-500 text-base"
+                className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-blue-500 text-base hover:bg-skyBlue hover:text-white transition"
                 onClick={() => excluirEquipamento(index)}
               >
                 Excluir EPI
@@ -126,7 +126,7 @@ const EPIForm = ({ equipamentos = [], setEquipamentos }) => {
 
           <div className="flex items-end">
             <button
-              className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-greyBlue text-sm"
+              className="w-full border border-greyBlue rounded-xl px-2 py-1.5 text-greyBlue text-sm hover:bg-skyBlue hover:text-white transition"
               onClick={() => adicionarEquipamento()}
             >
               Adicionar EPI
