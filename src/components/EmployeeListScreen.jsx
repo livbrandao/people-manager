@@ -5,6 +5,7 @@ import FuncionarioCard from "./Home/FuncionarioCard";
 import ProgressSteps from "./Home/ProgressSteps";
 import EmployeeForm from "./Forms/EmployeeForm";
 import axios from "axios";
+import DeleteMessage from "./alerts/DeleteMessage";
 
 export default function EmployeeListScreen() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ export default function EmployeeListScreen() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showMainContent, setShowMainContent] = useState(true);
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);
+  const [employeeToEdit, setEmployeeToEdit] = useState(null);
+  const [showDeleteMessage, setShowDeleteMessage] = useState(false);
 
   useEffect(() => {
     axios
@@ -64,6 +67,27 @@ export default function EmployeeListScreen() {
     setIsAddingEmployee(false);
   };
 
+  const handleEdit = (employee) => {
+    setEmployeeToEdit(employee);
+    setIsAddingEmployee(true);
+    setHasAddedEmployee(true);
+  };
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja excluir este funcionário?"
+    );
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:3001/employees/${id}`);
+        setEmployees((prev) => prev.filter((emp) => emp.id !== id));
+      } catch (error) {
+        console.error("Erro ao excluir:", error);
+      }
+      setShowDeleteMessage(true);
+    }
+  };
+
   return (
     <div className="min-h-screen p-4">
       {/* Process Steps */}
@@ -78,6 +102,13 @@ export default function EmployeeListScreen() {
 
       {showMainContent ? (
         <div className="flex flex-col items-end">
+          {showDeleteMessage && (
+            <DeleteMessage
+              onConfirm={handleDelete}
+              onCancel={() => setShowDeleteMessage(false)}
+            />
+          )}
+
           <div className="flex justify-between gap-4">
             {/* Card de informações */}
             <div className="w-2/4 h-full bg-white p-8 rounded-xl shadow">
@@ -119,7 +150,12 @@ export default function EmployeeListScreen() {
 
                 {/* div principal */}
                 {isAddingEmployee ? (
-                  <EmployeeForm onBack={handleBack} />
+                  <EmployeeForm
+                    onBack={handleBack}
+                    employeeToEdit={employeeToEdit}
+                    setIsAddingEmployee={setIsAddingEmployee}
+                    setEmployees={setEmployees}
+                  />
                 ) : (
                   <div>
                     <div className="p-4 flex flex-col justify-between gap-4">
@@ -161,6 +197,8 @@ export default function EmployeeListScreen() {
                           cpf={employee.cpf}
                           status={employee.isActive ? "Ativo" : "Inativo"}
                           cargo={employee.role}
+                          onEdit={() => handleEdit(employee)}
+                          onDelete={() => handleDelete(employee.id)}
                         />
                       ))}
                     </div>

@@ -1,7 +1,15 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
 
-const FuncionarioCard = ({ nome, cpf, status, cargo, index }) => {
+const FuncionarioCard = ({
+  nome,
+  cpf,
+  status,
+  cargo,
+  index,
+  onEdit,
+  onDelete,
+}) => {
   const isEven = index % 2 === 0;
 
   const [showPopup, setShowPopup] = useState(false);
@@ -31,9 +39,12 @@ const FuncionarioCard = ({ nome, cpf, status, cargo, index }) => {
   };
 
   const handleOptionClick = (action) => {
-    console.log(`Ação selecionada: ${action}`);
     setShowPopup(false);
-    // Implementar as ações para Alterar ou Excluir
+    if (action === "alterar") {
+      onEdit();
+    } else if (action === "excluir") {
+      onDelete();
+    }
   };
 
   return (

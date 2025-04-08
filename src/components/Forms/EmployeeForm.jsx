@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EPIForm from "./EPIForm";
 import axios from "axios";
 import SuccessMessage from "../alerts/SuccessMessage";
 
-const EmployeeForm = () => {
+const EmployeeForm = ({
+  onBack,
+  employeeToEdit,
+  setIsAddingEmployee,
+  setEmployees,
+}) => {
   const [formData, setFormData] = useState({
     isActive: true,
     name: "",
@@ -86,9 +91,28 @@ const EmployeeForm = () => {
       setLoading(true);
       setSuccessMessage("");
 
-      await axios.post("http://localhost:3001/employees", formData);
+      if (employeeToEdit) {
+        const response = await axios.put(
+          `http://localhost:3001/employees/${employeeToEdit.id}`,
+          formData
+        );
+
+        setEmployees((prev) =>
+          prev.map((emp) =>
+            emp.id === employeeToEdit.id ? response.data : emp
+          )
+        );
+      } else {
+        const response = await axios.post(
+          "http://localhost:3001/employees",
+          formData
+        );
+        setEmployees((prev) => [...prev, response.data]);
+      }
 
       setSuccessMessage("Trabalhador cadastrado com sucesso!");
+
+      // Limpa os dados do formulário
       setFormData({
         isActive: true,
         name: "",
@@ -101,6 +125,10 @@ const EmployeeForm = () => {
         activities: [{ activity: "", epis: [] }],
         healthCertificate: "",
       });
+
+      // Fecha o formulário
+      setIsAddingEmployee(false);
+      onBack();
     } catch (error) {
       console.error("Erro ao salvar:", error);
     } finally {
@@ -127,6 +155,13 @@ const EmployeeForm = () => {
       activities: [...formData.activities, { activity: "", epis: [] }],
     });
   };
+
+  // Preenche o formulário com os dados do funcionário a ser editado
+  useEffect(() => {
+    if (employeeToEdit) {
+      setFormData(employeeToEdit);
+    }
+  }, [employeeToEdit]);
 
   return (
     <div className="px-6 py-8">
@@ -275,9 +310,9 @@ const EmployeeForm = () => {
                   className="w-full p-2 border border-greyBlue rounded-xl text-base"
                 >
                   <option value="">Selecione um cargo</option>
-                  <option value="gerente">Gerente</option>
-                  <option value="assistente">Assistente</option>
-                  <option value="operador">Operador</option>
+                  <option value="Gerente">Gerente</option>
+                  <option value="Assistente">Assistente</option>
+                  <option value="Operador">Operador</option>
                 </select>
                 {errors.role && (
                   <span className="text-red-500">{errors.role}</span>
