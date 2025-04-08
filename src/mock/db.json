@@ -17,6 +17,29 @@
         }
       ],
       "healthCertificate": ""
+    },
+    {
+      "id": "ab92",
+      "isActive": false,
+      "name": "Giselle Torres Lopes",
+      "gender": "feminino",
+      "cpf": "000.000.000-88",
+      "birthDate": "25/02/2002",
+      "rg": "3334888",
+      "role": "Operador",
+      "doesNotUseEPI": false,
+      "activities": [
+        {
+          "activity": "",
+          "epis": [
+            {
+              "tipo": "Calçado de segurança",
+              "ca": "9356"
+            }
+          ]
+        }
+      ],
+      "healthCertificate": ""
     }
   ]
 }

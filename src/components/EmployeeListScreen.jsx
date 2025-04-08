@@ -17,6 +17,7 @@ export default function EmployeeListScreen() {
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
   const [showDeleteMessage, setShowDeleteMessage] = useState(false);
+  const [filterActiveOnly, setFilterActiveOnly] = useState(false);
 
   useEffect(() => {
     axios
@@ -87,6 +88,10 @@ export default function EmployeeListScreen() {
       setShowDeleteMessage(true);
     }
   };
+
+  const filteredEmployees = filterActiveOnly
+    ? employees.filter((emp) => emp.isActive)
+    : employees;
 
   return (
     <div className="min-h-screen p-4">
@@ -168,10 +173,16 @@ export default function EmployeeListScreen() {
                       </button>
                       <div className="flex gap-2 items-center justify-between">
                         <div className="flex gap-2">
-                          <button className="text-greyBlue hover:bg-mediumLightGray px-8 py-1 text-base flex items-center border border-greyBlue rounded-xl justify-center focus:border-2 focus:border-greyBlue focus:outline-none focus:bg-skyBlue focus:text-white">
+                          <button
+                            onClick={() => setFilterActiveOnly(true)}
+                            className="text-greyBlue hover:bg-mediumLightGray px-8 py-1 text-base flex items-center border border-greyBlue rounded-xl justify-center focus:border-2 focus:border-greyBlue focus:outline-none focus:bg-skyBlue focus:text-white"
+                          >
                             Ver apenas ativos
                           </button>
-                          <button className="text-mediumLightGray hover:bg-darkGreyishBlue px-8 py-1 text-base flex items-center border border-mediumLightGray rounded-xl justify-center">
+                          <button
+                            onClick={() => setFilterActiveOnly(false)}
+                            className="text-mediumLightGray hover:bg-darkGreyishBlue px-8 py-1 text-base flex items-center border border-mediumLightGray rounded-xl justify-center"
+                          >
                             Limpar filtros
                           </button>
                         </div>
@@ -189,9 +200,10 @@ export default function EmployeeListScreen() {
 
                     {/* Lista de funcionarios */}
                     <div className="p-4 max-h-[220px] overflow-y-auto">
-                      {employees.map((employee) => (
+                      {filteredEmployees.map((employee) => (
                         <FuncionarioCard
                           key={employee.id}
+                          employee={employee}
                           index={employee.id}
                           nome={employee.name}
                           cpf={employee.cpf}
