@@ -20,6 +20,10 @@ export default function EmployeeListScreen() {
   const [filterActiveOnly, setFilterActiveOnly] = useState(false);
   const [showCompletedIndicator, setShowCompletedIndicator] = useState(false);
 
+  // Define total steps
+  const TOTAL_STEPS = 9;
+  const isLastStep = currentStep === TOTAL_STEPS;
+
   useEffect(() => {
     axios
       .get("http://localhost:3001/employees")
@@ -67,7 +71,7 @@ export default function EmployeeListScreen() {
   const handleToggleStepCompletion = () => {
     const newCompletionState = !isStepCompleted;
     setIsStepCompleted(newCompletionState);
-    // Marcar como concluído e mostra o indicador visual
+    // Marca como concluído e mostra o indicador visual
     if (newCompletionState) {
       setShowCompletedIndicator(true);
     } else {
@@ -114,6 +118,7 @@ export default function EmployeeListScreen() {
           currentStep={currentStep}
           isCurrentStepCompleted={isStepCompleted || currentStep > 1}
           showCompletedIndicator={showCompletedIndicator}
+          totalSteps={TOTAL_STEPS}
         />
       </div>
 
@@ -264,18 +269,21 @@ export default function EmployeeListScreen() {
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            disabled={!isNextStepEnabled}
-            onClick={handleNextStep}
-            className={`px-12 py-2 text-white rounded-xl text-sm mt-2 ${
-              isNextStepEnabled
-                ? "bg-greyBlue hover:bg-blue-700 cursor-pointer"
-                : "bg-darkGreyishBlue opacity-50 cursor-not-allowed"
-            }`}
-          >
-            Próximo passo
-          </button>
+
+          {!isLastStep && (
+            <button
+              type="button"
+              disabled={!isNextStepEnabled}
+              onClick={handleNextStep}
+              className={`px-12 py-2 text-white rounded-xl text-sm mt-2 ${
+                isNextStepEnabled
+                  ? "bg-greyBlue hover:bg-blue-700 cursor-pointer"
+                  : "bg-darkGreyishBlue opacity-50 cursor-not-allowed"
+              }`}
+            >
+              Próximo passo
+            </button>
+          )}
         </div>
       ) : (
         // Conteúdo das outras etapas
@@ -292,18 +300,21 @@ export default function EmployeeListScreen() {
             >
               Passo anterior
             </button>
-            <button
-              type="button"
-              disabled={!isNextStepEnabled}
-              onClick={handleNextStep}
-              className={`px-12 py-2 text-white rounded-xl text-sm mt-8 ${
-                isNextStepEnabled
-                  ? "bg-greyBlue hover:bg-greyishBlue cursor-pointer"
-                  : "bg-darkGreyishBlue opacity-50 cursor-not-allowed"
-              }`}
-            >
-              Próximo passo
-            </button>
+
+            {!isLastStep && (
+              <button
+                type="button"
+                disabled={!isNextStepEnabled}
+                onClick={handleNextStep}
+                className={`px-12 py-2 text-white rounded-xl text-sm mt-8 ${
+                  isNextStepEnabled
+                    ? "bg-greyBlue hover:bg-greyishBlue cursor-pointer"
+                    : "bg-darkGreyishBlue opacity-50 cursor-not-allowed"
+                }`}
+              >
+                Próximo passo
+              </button>
+            )}
           </div>
         </div>
       )}

@@ -5,6 +5,7 @@ export default function ProgressSteps({
   currentStep = 1,
   isCurrentStepCompleted = false,
   showCompletedIndicator = false, // Controla quando mostear "Concluído"
+  totalSteps = 9,
 }) {
   const navigate = useNavigate();
   const [completedSteps, setCompletedSteps] = useState([]);
@@ -20,7 +21,7 @@ export default function ProgressSteps({
     { id: 7, label: "Item 7", path: "/step7" },
     { id: 8, label: "Item 8", path: "/step8" },
     { id: 9, label: "Item 9", path: "/step9" },
-  ];
+  ].slice(0, totalSteps);
 
   // Atualiza os passos concluídos quando o passo atual muda
   useEffect(() => {
@@ -121,7 +122,6 @@ export default function ProgressSteps({
               >
                 {step.label}
               </p>
-
               {showCompletedIndicator && step.status === "completed" && (
                 <p className="text-sm">Concluído</p>
               )}
