@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function ProgressSteps({
   currentStep = 1,
   isCurrentStepCompleted = false,
 }) {
   const navigate = useNavigate();
-  const location = useLocation();
   const [completedSteps, setCompletedSteps] = useState([]);
 
   // Definição das etapas
