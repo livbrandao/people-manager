@@ -18,6 +18,7 @@ export default function EmployeeListScreen() {
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
   const [showDeleteMessage, setShowDeleteMessage] = useState(false);
   const [filterActiveOnly, setFilterActiveOnly] = useState(false);
+  const [showCompletedIndicator, setShowCompletedIndicator] = useState(false);
 
   useEffect(() => {
     axios
@@ -37,11 +38,14 @@ export default function EmployeeListScreen() {
     // abre o formulário e setta true no progresso
     setIsAddingEmployee(true);
     setHasAddedEmployee(true);
+    // Não marca como "Concluído" ainda, apenas habilitamos o botão "Próximo passo"
   };
 
   const handleNextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);
-    // Oculta o conteúdo principal ao anvançar as etapas
+    // Marca o passo anterior como visualmente concluído
+    setShowCompletedIndicator(true);
+    // Oculta o conteúdo principal ao avançar as etapas
     setShowMainContent(false);
     navigate("/");
   };
@@ -61,7 +65,15 @@ export default function EmployeeListScreen() {
   };
 
   const handleToggleStepCompletion = () => {
-    setIsStepCompleted(!isStepCompleted);
+    const newCompletionState = !isStepCompleted;
+    setIsStepCompleted(newCompletionState);
+    // Marcar como concluído e mostra o indicador visual
+    if (newCompletionState) {
+      setShowCompletedIndicator(true);
+    } else {
+      // Se desmarcar, remove o indicador visual
+      setShowCompletedIndicator(false);
+    }
   };
 
   const handleBack = () => {
@@ -72,6 +84,7 @@ export default function EmployeeListScreen() {
     setEmployeeToEdit(employee);
     setIsAddingEmployee(true);
     setHasAddedEmployee(true);
+    // Não marca como "Concluído" ainda, apenas habilita o botão "Próximo passo"
   };
 
   const handleDelete = async (id) => {
@@ -99,9 +112,8 @@ export default function EmployeeListScreen() {
       <div className="bg-white p-4 rounded-xl mb-4 shadow">
         <ProgressSteps
           currentStep={currentStep}
-          isCurrentStepCompleted={
-            currentStep === 1 && (isStepCompleted || hasAddedEmployee)
-          }
+          isCurrentStepCompleted={isStepCompleted || currentStep > 1}
+          showCompletedIndicator={showCompletedIndicator}
         />
       </div>
 
@@ -232,7 +244,7 @@ export default function EmployeeListScreen() {
                         onClick={handleToggleStepCompletion}
                       >
                         <span
-                          className={`text-xs font-light  tracking-wide text-dark ${
+                          className={`text-xs font-light tracking-wide text-dark ${
                             isStepCompleted ? "px-2" : "pl-5"
                           }`}
                         >

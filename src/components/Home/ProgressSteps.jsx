@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function ProgressSteps({
   currentStep = 1,
   isCurrentStepCompleted = false,
+  showCompletedIndicator = false, // Controla quando mostear "Concluído"
 }) {
   const navigate = useNavigate();
   const [completedSteps, setCompletedSteps] = useState([]);
@@ -120,7 +121,8 @@ export default function ProgressSteps({
               >
                 {step.label}
               </p>
-              {step.status === "completed" && (
+
+              {showCompletedIndicator && step.status === "completed" && (
                 <p className="text-sm">Concluído</p>
               )}
             </div>
