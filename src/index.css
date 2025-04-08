@@ -14,6 +14,7 @@ body {
   background-image: url("assets/elemento-de-fundo.png");
   background-position: bottom right;
   background-repeat: no-repeat;
+  height: 100vh;
 }
 
 code {

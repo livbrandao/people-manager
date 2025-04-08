@@ -9,7 +9,7 @@ export default {
         mediumLightGray: "#DBDBDB",
         skyBlue: "#4FA1C2",
         greyBlue: "#649FBF",
-        darkGray: "#3B4042",
+        darkGray: "#707070",
         charcoal: "#252F33",
         dark: "#272F33",
       },
