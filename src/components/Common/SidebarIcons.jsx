@@ -35,8 +35,8 @@ const SidebarIcons = () => {
   const location = useLocation();
 
   const routeToIconMap = {
-    "/": 0,
-    "/coming-soon": 1,
+    "/": 1,
+    "/coming-soon": 0,
   };
 
   const getCurrentSelectedIcon = () => {
@@ -49,7 +49,7 @@ const SidebarIcons = () => {
     {
       id: 0,
       name: "Prédio",
-      route: "/",
+      route: "/coming-soon",
       icon: (
         <svg
           width="19"
@@ -68,7 +68,7 @@ const SidebarIcons = () => {
     {
       id: 1,
       name: "Editar",
-      route: "/coming-soon",
+      route: "/",
       icon: (
         <svg
           width="21"
