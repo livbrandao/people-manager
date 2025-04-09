@@ -24,7 +24,7 @@ Bem-vindo ao **SEA - Funcionários**, um sistema web responsivo para cadastro e 
 
 ## 📂 Estrutura do Projeto
 
-````bash
+```bash
 src/
 ├── components/          # Componentes reutilizáveis (Switch, Sidebar, etc)
 ├── pages/               # Páginas principais (Home, ComingSoon)
@@ -34,6 +34,7 @@ src/
 ├── alerts/              # Mensagens de sucesso e exclusão
 ├── App.js               # Definição de rotas
 └── index.js             # Ponto de entrada da aplicação
+```
 
 ## 🧰 Como executar localmente
 
@@ -52,7 +53,7 @@ $ json-server --watch src/mock/db.json --port 3001
 $ npm run dev
 
 # Abra o navegador em [http://localhost:3000] e a API está configurada em http://localhost:3001, entre e veja a aplicação em ação! 🌐
-````
+```
 
 ## ✨ Pontos que poderia melhorar
 
