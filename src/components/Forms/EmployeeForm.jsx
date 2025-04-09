@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import EPIForm from "./EPIForm";
 import axios from "axios";
 import SuccessMessage from "../alerts/SuccessMessage";
+import ToggleSwitch from "../Home/ToggleSwitch";
 
 const EmployeeForm = ({
   onBack,
@@ -186,30 +187,19 @@ const EmployeeForm = ({
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Status */}
-        <div className="mb-4 p-2 border border-greyBlue rounded-xl flex justify-between items-center shadow">
-          <label className="text-base text-dark font-medium">
-            O trabalhador está ativo ou inativo?
-          </label>
-          <div className="flex items-center">
-            <div
-              className="w-20 h-5 flex items-center rounded-full p-1 cursor-pointer bg-mediumLightGray"
-              onClick={() =>
-                setFormData({ ...formData, isActive: !formData.isActive })
-              }
-            >
-              <span
-                className={`text-xs font-light pl-5 tracking-wide text-dark`}
-              >
-                {formData.isActive ? "Ativo" : "Inativo"}
-              </span>
-              <div
-                className={`w-3 h-3 rounded-full shadow-md transform bg-greyBlue ${
-                  formData.isActive ? "translate-x-2" : "-translate-x-14"
-                }`}
-              ></div>
-            </div>
-          </div>
-        </div>
+        <ToggleSwitch
+          label="O trabalhador está ativo ou inativo?"
+          value={formData.isActive}
+          onToggle={(val) =>
+            setFormData((prev) => ({
+              ...prev,
+              isActive: val,
+            }))
+          }
+          trueLabel="Ativo"
+          falseLabel="Inativo"
+          className="flex justify-between"
+        />
 
         {/* Basic Information */}
         <div className="mb-4 border border-greyBlue shadow rounded-xl p-3">

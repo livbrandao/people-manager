@@ -14,6 +14,7 @@ import {
   goToPreviousStep,
   markStepCompleted,
 } from "../redux/stepsSlice";
+import ToggleSwitch from "./Home/ToggleSwitch";
 
 export default function EmployeeListScreen() {
   const dispatch = useDispatch();
@@ -241,31 +242,11 @@ export default function EmployeeListScreen() {
                     isAddingEmployee ? "hidden" : "block"
                   }`}
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">A etapa está concluída?</span>
-
-                    <div className="flex items-center">
-                      <div
-                        className="w-16 h-5 flex items-center rounded-full p-1 cursor-pointer bg-mediumLightGray"
-                        onClick={handleToggleStepCompletion}
-                      >
-                        <span
-                          className={`text-xs font-light tracking-wide text-dark ${
-                            isStepCompleted ? "px-2" : "pl-5"
-                          }`}
-                        >
-                          {isStepCompleted ? "Sim" : "Não"}
-                        </span>
-                        <div
-                          className={`w-3 h-3 rounded-full shadow-md transform bg-greyBlue ${
-                            isStepCompleted
-                              ? "translate-x-1"
-                              : "-translate-x-10"
-                          }`}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
+                  <ToggleSwitch
+                    label="A etapa está concluída?"
+                    value={isStepCompleted}
+                    onToggle={() => setIsStepCompleted(!isStepCompleted)}
+                  />
                 </div>
               </div>
             </div>
