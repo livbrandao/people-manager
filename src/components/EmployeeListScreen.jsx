@@ -1,42 +1,46 @@
-import { useState, useEffect } from "react";
-import { ArrowLeft, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Plus } from "lucide-react";
+
 import FuncionarioCard from "./Home/FuncionarioCard";
 import ProgressSteps from "./Home/ProgressSteps";
 import EmployeeForm from "./Forms/EmployeeForm";
-import axios from "axios";
 import DeleteMessage from "./alerts/DeleteMessage";
 
+import { fetchEmployees, setEmployees } from "../redux/employeesSlice";
+import {
+  goToNextStep,
+  goToPreviousStep,
+  markStepCompleted,
+} from "../redux/stepsSlice";
+
 export default function EmployeeListScreen() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [employees, setEmployees] = useState([]);
+
+  const employees = useSelector((state) => state.employees.list);
+  const currentStep = useSelector((state) => state.steps.currentStep);
+  const completedSteps = useSelector((state) => state.steps.completedSteps);
+
   const [isStepCompleted, setIsStepCompleted] = useState(false);
   const [hasAddedEmployee, setHasAddedEmployee] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
   const [showMainContent, setShowMainContent] = useState(true);
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
   const [showDeleteMessage, setShowDeleteMessage] = useState(false);
   const [filterActiveOnly, setFilterActiveOnly] = useState(false);
-  const [showCompletedIndicator, setShowCompletedIndicator] = useState(false);
 
   // Define total steps
   const TOTAL_STEPS = 9;
   const isLastStep = currentStep === TOTAL_STEPS;
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/employees")
-      .then((response) => {
-        setEmployees(response.data);
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar funcionários:", error);
-      });
-  }, []);
-
   // Ativa o botão se uma das etapas estiver concluída ou se um novo funcionário tiver sido adicionado
   const isNextStepEnabled = isStepCompleted || hasAddedEmployee;
+
+  useEffect(() => {
+    dispatch(fetchEmployees());
+  }, [dispatch]);
 
   const handleAddEmployee = () => {
     // abre o formulário e setta true no progresso
@@ -46,37 +50,26 @@ export default function EmployeeListScreen() {
   };
 
   const handleNextStep = () => {
-    setCurrentStep((prevStep) => prevStep + 1);
-    // Marca o passo anterior como visualmente concluído
-    setShowCompletedIndicator(true);
+    dispatch(goToNextStep());
+    dispatch(markStepCompleted(currentStep));
     // Oculta o conteúdo principal ao avançar as etapas
     setShowMainContent(false);
     navigate("/");
   };
 
   const handlePreviousStep = () => {
-    if (currentStep > 1) {
-      const newStep = currentStep - 1;
-      setCurrentStep(newStep);
-
-      if (newStep === 1) {
-        setShowMainContent(true);
-        navigate("/");
-      } else {
-        navigate(`/`);
-      }
-    }
+    dispatch(goToPreviousStep());
+    setShowMainContent(true);
+    navigate("/");
   };
 
   const handleToggleStepCompletion = () => {
-    const newCompletionState = !isStepCompleted;
-    setIsStepCompleted(newCompletionState);
+    const newCompletion = !isStepCompleted;
+    setIsStepCompleted(newCompletion);
+
     // Marca como concluído e mostra o indicador visual
-    if (newCompletionState) {
-      setShowCompletedIndicator(true);
-    } else {
-      // Se desmarcar, remove o indicador visual
-      setShowCompletedIndicator(false);
+    if (newCompletion) {
+      dispatch(markStepCompleted(currentStep));
     }
   };
 
@@ -96,12 +89,8 @@ export default function EmployeeListScreen() {
       "Tem certeza que deseja excluir este funcionário?"
     );
     if (confirmDelete) {
-      try {
-        await axios.delete(`http://localhost:3001/employees/${id}`);
-        setEmployees((prev) => prev.filter((emp) => emp.id !== id));
-      } catch (error) {
-        console.error("Erro ao excluir:", error);
-      }
+      const updated = employees.filter((emp) => emp.id !== id);
+      dispatch(setEmployees(updated));
       setShowDeleteMessage(true);
     }
   };
@@ -116,8 +105,10 @@ export default function EmployeeListScreen() {
       <div className="bg-white p-4 rounded-xl mb-4 shadow">
         <ProgressSteps
           currentStep={currentStep}
-          isCurrentStepCompleted={isStepCompleted || currentStep > 1}
-          showCompletedIndicator={showCompletedIndicator}
+          isCurrentStepCompleted={
+            isStepCompleted || completedSteps.includes(currentStep)
+          }
+          showCompletedIndicator={true}
           totalSteps={TOTAL_STEPS}
         />
       </div>
@@ -277,7 +268,7 @@ export default function EmployeeListScreen() {
               onClick={handleNextStep}
               className={`px-12 py-2 text-white rounded-xl text-sm mt-2 ${
                 isNextStepEnabled
-                  ? "bg-greyBlue hover:bg-blue-700 cursor-pointer"
+                  ? "bg-greyBlue hover:bg-greyishBlue cursor-pointer"
                   : "bg-darkGreyishBlue opacity-50 cursor-not-allowed"
               }`}
             >
