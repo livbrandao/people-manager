@@ -74,16 +74,6 @@ export default function EmployeeListScreen() {
     }
   };
 
-  const handleToggleStepCompletion = () => {
-    const newCompletion = !isStepCompleted;
-    setIsStepCompleted(newCompletion);
-
-    // Marca como concluído e mostra o indicador visual
-    if (newCompletion) {
-      dispatch(markStepCompleted(currentStep));
-    }
-  };
-
   const handleBack = () => {
     setIsAddingEmployee(false);
   };
