@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# 🧑‍💼 SEA - Gestão de Funcionários
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Bem-vindo ao **SEA - Funcionários**, um sistema web responsivo para cadastro e gerenciamento de funcionários com controle de etapas, EPI's e atividades 🛠️. Desenvolvido com **React + TailwindCSS + Redux**, e utilizando `json-server` como simulação de back-end.
 
-## Available Scripts
+## 🚀 Tecnologias Utilizadas
 
-In the project directory, you can run:
+- ⚛️ **React** — Biblioteca JavaScript para interfaces
+- 🎨 **TailwindCSS** — Framework de estilos utilitários
+- 🔁 **Redux Toolkit** — Gerenciamento de estado global
+- 🔌 **json-server** — Simulação de API REST
+- 🧪 **Axios** — Requisições HTTP
 
-### `npm start`
+## 🖥️ Funcionalidades
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+✅ Cadastro e edição de funcionários  
+✅ Atribuição de atividades e EPI's  
+✅ Upload de atestados (com preview do nome do arquivo)  
+✅ Controle de progresso com etapas (de 1 a 9)  
+✅ Navegação por etapas com botão de avanço/retrocesso  
+✅ Switch para indicar conclusão da etapa  
+✅ Filtro de funcionários ativos  
+✅ Layout responsivo (mobile, tablet, desktop)  
+✅ Persistência de dados com `json-server`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📂 Estrutura do Projeto
 
-### `npm test`
+````bash
+src/
+├── components/          # Componentes reutilizáveis (Switch, Sidebar, etc)
+├── pages/               # Páginas principais (Home, ComingSoon)
+├── redux/               # Store + Slices (Redux Toolkit)
+├── Forms/               # Formulários (Employee, EPI)
+├── Home/                # Tela inicial e cards
+├── alerts/              # Mensagens de sucesso e exclusão
+├── App.js               # Definição de rotas
+└── index.js             # Ponto de entrada da aplicação
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🧰 Como executar localmente
 
-### `npm run build`
+```bash
+# 1️⃣ Clone o repositório
+$ git clone https://github.com/seu-usuario/sea-funcionarios.git
+$ cd sea-funcionarios
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# 2️⃣ Instale as dependências
+$ npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 3️⃣ Inicie o json-server
+$ json-server --watch src/mock/db.json --port 3001
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# 4️⃣ Rode o projeto
+$ npm run dev
 
-### `npm run eject`
+# Abra o navegador em [http://localhost:3000] e a API está configurada em http://localhost:3001, entre e veja a aplicação em ação! 🌐
+````
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## ✨ Pontos que poderia melhorar
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Separar lógica do Redux em diretórios próprios (actions/, reducers/) para projetos maiores
+- Criar hooks customizados para encapsular lógica (ex: useEmployees(), useSteps())
+- Isolar constante de TOTAL_STEPS em um arquivo de config global
+- Uso de biblioteca como Yup + Formik ou React Hook Form para validações mais robustas
+- Máscara de entrada para CPF e data (react-input-mask)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🚧 Pontos de Dificuldade Superados
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Controle de etapas e navegação
+   ❗Desafio: Manter o currentStep global, navegar entre rotas, e ainda controlar quando mostrar conteúdo principal ou “Em breve”. Resolvi com Redux (stepsSlice), Condicionais com showMainContent e Navegação programática com navigate().
 
-## Learn More
+2. Sincronização entre formulário, Redux e API
+   ❗Desafio: Quando editar/cadastrar funcionário, atualizar Redux e também persistir via json-server. Consegui separar bem as responsabilidades, atualizar a lista global após POST/PUT e reutilizar o mesmo formulário para "adicionar" e "editar".
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Estilização condicional e Tailwind
+   ❗Desafio: Mostrar estilos diferentes dependendo do status (ativo/inativo, etapa concluída ou não). Usei className condicional com template strings e cores utilitárias para diferenciar visualmente os estados.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 👨‍💻 Desenvolvido por
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Lívia Brandão**
+[LinkedIn](https://www.linkedin.com/in/liviatbrandao/) · [GitHub](https://github.com/livbrandao)
