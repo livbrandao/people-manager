@@ -133,9 +133,9 @@ export default function EmployeeListScreen() {
             />
           )}
 
-          <div className="flex justify-between gap-4">
+          <div className="flex flex-col lg:flex-row gap-4">
             {/* Card de informações */}
-            <div className="w-2/4 h-full bg-white p-8 rounded-xl shadow">
+            <div className="w-full lg:w-2/4 h-full bg-white p-8 rounded-xl shadow">
               <p className="text-base text-mediumLightGray mb-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
                 viverra lectus non porttitor. Suspendisse at lacinia mauris nec
@@ -153,7 +153,7 @@ export default function EmployeeListScreen() {
             </div>
 
             {/* Card da Lísta de Funcionários */}
-            <div className="w-3/4">
+            <div className="w-full lg:w-3/4">
               <div className="bg-white rounded-xl shadow">
                 {/* Header */}
                 <div className="bg-greyBlue text-white p-4 rounded-t-xl flex justify-between items-center">
