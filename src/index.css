@@ -8,13 +8,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  text-color: #272f33;
-
+  color: #272f33;
   @apply bg-[#DBDBDB];
+
   background-image: url("assets/elemento-de-fundo.png");
   background-position: bottom right;
   background-repeat: no-repeat;
-  height: 100vh;
+  background-size: contain;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 code {
