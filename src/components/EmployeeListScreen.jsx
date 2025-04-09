@@ -54,13 +54,23 @@ export default function EmployeeListScreen() {
     dispatch(markStepCompleted(currentStep));
     // Oculta o conteúdo principal ao avançar as etapas
     setShowMainContent(false);
-    navigate("/");
+    navigate(`/step${currentStep + 1}`);
   };
 
   const handlePreviousStep = () => {
-    dispatch(goToPreviousStep());
-    setShowMainContent(true);
-    navigate("/");
+    if (currentStep > 1) {
+      const newStep = currentStep - 1;
+
+      dispatch(goToPreviousStep());
+
+      if (newStep === 1) {
+        setShowMainContent(true);
+        navigate("/");
+      } else {
+        setShowMainContent(false);
+        navigate(`/step${newStep}`);
+      }
+    }
   };
 
   const handleToggleStepCompletion = () => {
@@ -113,7 +123,7 @@ export default function EmployeeListScreen() {
         />
       </div>
 
-      {showMainContent ? (
+      {currentStep === 1 && showMainContent ? (
         <div className="flex flex-col items-end">
           {showDeleteMessage && (
             <DeleteMessage

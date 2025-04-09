@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SidebarIcon = ({ icon, isSelected, badge }) => (
   <div className="flex gap-4 my-3 mx-3.5 ">
@@ -32,18 +32,8 @@ const SidebarIcon = ({ icon, isSelected, badge }) => (
 
 const SidebarIcons = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const routeToIconMap = {
-    "/": 1,
-    "/coming-soon": 0,
-  };
-
-  const getCurrentSelectedIcon = () => {
-    return routeToIconMap[location.pathname] ?? 0;
-  };
-
-  const [selectedIcon, setSelectedIcon] = useState(getCurrentSelectedIcon());
+  const [selectedIcon, setSelectedIcon] = useState(1);
 
   const icons = [
     {
@@ -181,7 +171,6 @@ const SidebarIcons = () => {
             {selectedIcon === icon.id && (
               <div className="absolute left-0 top-0 w-1 h-10 bg-white mt-3"></div>
             )}
-
             <SidebarIcon
               icon={icon.icon}
               isSelected={selectedIcon === icon.id}
