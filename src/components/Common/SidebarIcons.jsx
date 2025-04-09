@@ -159,8 +159,8 @@ const SidebarIcons = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex flex-col">
+    <div className="flex flex-col pb-16">
+      <div className="flex flex-col my-10">
         {icons.map((icon) => (
           <div
             key={icon.id}

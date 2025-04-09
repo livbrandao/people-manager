@@ -3,7 +3,7 @@ import SidebarNavigation from "./SidebarNavigation";
 
 function Layout({ children }) {
   return (
-    <div className="flex h-screen">
+    <div className="flex">
       <SidebarNavigation />
 
       <div className="flex-1 ">{children}</div>

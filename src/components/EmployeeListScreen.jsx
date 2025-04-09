@@ -111,7 +111,7 @@ export default function EmployeeListScreen() {
     : employees;
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="p-4">
       {/* Process Steps */}
       <div className="bg-white p-4 rounded-xl mb-4 shadow">
         <ProgressSteps
@@ -135,7 +135,7 @@ export default function EmployeeListScreen() {
 
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Card de informações */}
-            <div className="w-full lg:w-2/4 h-full bg-white p-8 rounded-xl shadow">
+            <div className="w-full lg:w-2/4 bg-white p-8 rounded-xl shadow">
               <p className="text-base text-mediumLightGray mb-4">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
                 viverra lectus non porttitor. Suspendisse at lacinia mauris nec
@@ -269,8 +269,8 @@ export default function EmployeeListScreen() {
         </div>
       ) : (
         // Conteúdo das outras etapas
-        <div className="flex flex-col items-stretch h-screen mt-4 gap-96">
-          <div className="ml-[80px] md:ml-[60px] lg:ml-[40px] mr-4 bg-skyBlue text-white text-center py-3 rounded-2xl mt-10 text-xl ">
+        <div className="flex flex-col mt-4 gap-80 h-min ">
+          <div className="bg-skyBlue text-white text-center py-3 rounded-2xl mt-10 text-xl ">
             Em breve
           </div>
 
