@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.1ff5d963.css",
-    "main.js": "/static/js/main.bbdc55a6.js",
-    "static/js/488.c8282429.chunk.js": "/static/js/488.c8282429.chunk.js",
-    "static/media/elemento-de-fundo.png": "/static/media/elemento-de-fundo.fdb1f97231240713e95c.png",
-    "index.html": "/index.html",
-    "main.1ff5d963.css.map": "/static/css/main.1ff5d963.css.map",
-    "main.bbdc55a6.js.map": "/static/js/main.bbdc55a6.js.map",
-    "488.c8282429.chunk.js.map": "/static/js/488.c8282429.chunk.js.map"
+    "main.css": "/people-manager/static/css/main.a2db3465.css",
+    "main.js": "/people-manager/static/js/main.83963299.js",
+    "static/js/488.c8282429.chunk.js": "/people-manager/static/js/488.c8282429.chunk.js",
+    "static/media/elemento-de-fundo.png": "/people-manager/static/media/elemento-de-fundo.fdb1f97231240713e95c.png",
+    "index.html": "/people-manager/index.html",
+    "main.a2db3465.css.map": "/people-manager/static/css/main.a2db3465.css.map",
+    "main.83963299.js.map": "/people-manager/static/js/main.83963299.js.map",
+    "488.c8282429.chunk.js.map": "/people-manager/static/js/488.c8282429.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1ff5d963.css",
-    "static/js/main.bbdc55a6.js"
+    "static/css/main.a2db3465.css",
+    "static/js/main.83963299.js"
   ]
 }
