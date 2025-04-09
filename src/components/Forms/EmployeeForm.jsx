@@ -3,6 +3,8 @@ import EPIForm from "./EPIForm";
 import axios from "axios";
 import SuccessMessage from "../alerts/SuccessMessage";
 import ToggleSwitch from "../Home/ToggleSwitch";
+import { useDispatch } from "react-redux";
+import { fetchEmployees } from "../../redux/employeesSlice";
 
 const EmployeeForm = ({
   onBack,
@@ -80,6 +82,8 @@ const EmployeeForm = ({
     return Object.keys(newErrors).length === 0;
   };
 
+  const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -93,27 +97,20 @@ const EmployeeForm = ({
       setSuccessMessage("");
 
       if (employeeToEdit) {
-        const response = await axios.put(
+        await axios.put(
           `http://localhost:3001/employees/${employeeToEdit.id}`,
           formData
         );
-
-        setEmployees((prev) =>
-          prev.map((emp) =>
-            emp.id === employeeToEdit.id ? response.data : emp
-          )
-        );
       } else {
-        const response = await axios.post(
-          "http://localhost:3001/employees",
-          formData
-        );
-        setEmployees((prev) => [...prev, response.data]);
+        await axios.post("http://localhost:3001/employees", formData);
       }
+
+      // Atualiza lista no Redux e consequentemente os cards
+      await dispatch(fetchEmployees());
 
       setSuccessMessage("Trabalhador cadastrado com sucesso!");
 
-      // Limpa os dados do formulário
+      // Limpa o formulário
       setFormData({
         isActive: true,
         name: "",

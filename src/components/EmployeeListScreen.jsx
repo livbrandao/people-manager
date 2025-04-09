@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus } from "lucide-react";
+import axios from "axios";
 
 import FuncionarioCard from "./Home/FuncionarioCard";
 import ProgressSteps from "./Home/ProgressSteps";
@@ -90,9 +91,18 @@ export default function EmployeeListScreen() {
       "Tem certeza que deseja excluir este funcionário?"
     );
     if (confirmDelete) {
-      const updated = employees.filter((emp) => emp.id !== id);
-      dispatch(setEmployees(updated));
-      setShowDeleteMessage(true);
+      try {
+        // Exclui do json-server
+        await axios.delete(`http://localhost:3001/employees/${id}`);
+
+        // Atualiza a lista no Redux
+        dispatch(fetchEmployees());
+
+        // Mostra feedback visual
+        setShowDeleteMessage(true);
+      } catch (error) {
+        console.error("Erro ao excluir funcionário:", error);
+      }
     }
   };
 
@@ -208,7 +218,7 @@ export default function EmployeeListScreen() {
                     </div>
 
                     {/* Lista de funcionarios */}
-                    <div className="p-4 max-h-[220px] overflow-y-auto">
+                    <div className="px-2 max-h-[220px] overflow-y-auto">
                       {filteredEmployees.map((employee) => (
                         <FuncionarioCard
                           key={employee.id}
